@@ -27,37 +27,62 @@ import models.entities.Violations.{
 
 import scala.collection.View.Empty
 
-case class Plugin(id: String, data: String, Title: String, Acronym: String, Description: String)
+val mrPluginColumns = Seq(
+  "compound_id",
+  "target_protein",
+  "binding_affinity_kd",
+  "assay_type",
+  "unit",
+  "hit"
+)
+case class Plugin(
+    id: String,
+    data: String,
+    Title: String,
+    Acronym: String,
+    Description: String,
+    fields: Seq[String]
+)
 val pluginDatasources = Seq(
-  Plugin("plugin data 1",
-         data = "example_data.json",
-         Title = "Example Data 1",
-         Acronym = "ED",
-         Description = "Description for Example Data 1"
+  Plugin(
+    "plugin data 1",
+    data = "example_data.json",
+    Title = "Example Data 1",
+    Acronym = "ED",
+    Description = "Description for Example Data 1",
+    fields = mrPluginColumns
   ),
-  Plugin("plugin data 2",
-         data = "example_data2.json",
-         Title = "Example Data 2",
-         Acronym = "AP",
-         Description = "Description for Example Data 2"
+  Plugin(
+    "plugin data 2",
+    data = "example_data2.json",
+    Title = "Example Data 2",
+    Acronym = "AP",
+    Description = "Description for Example Data 2",
+    fields = mrPluginColumns
   ),
-  Plugin("plugin data 3",
-         data = "example_data3.json",
-         Title = "Example Data 3",
-         Acronym = "GP",
-         Description = "Description for Example Data 3"
+  Plugin(
+    "plugin data 3",
+    data = "example_data3.json",
+    Title = "Example Data 3",
+    Acronym = "GP",
+    Description = "Description for Example Data 3",
+    fields = mrPluginColumns
   ),
-  Plugin("plugin data 4",
-         data = "example_data4.json",
-         Title = "Example Data 4",
-         Acronym = "ED3",
-         Description = "Description for Example Data 4"
+  Plugin(
+    "plugin data 4",
+    data = "example_data4.json",
+    Title = "Example Data 4",
+    Acronym = "ED3",
+    Description = "Description for Example Data 4",
+    fields = mrPluginColumns
   ),
-  Plugin("plugin data 5",
-         data = "example_data5.json",
-         Title = "Example Data 5",
-         Acronym = "JK",
-         Description = "Description for Example Data 5"
+  Plugin(
+    "plugin data 5",
+    data = "example_data5.json",
+    Title = "Example Data 5",
+    Acronym = "JK",
+    Description = "Description for Example Data 5",
+    fields = mrPluginColumns
   )
 )
 
@@ -93,6 +118,10 @@ object Objects extends Logging {
     DocumentField(
       "Description",
       "The description shown in the section body's title bar"
+    ),
+    DocumentField(
+      "fields",
+      "The columns/fields that can be queried in this plugin"
     )
   )
   implicit val metaImp: ObjectType[Backend, Meta] = deriveObjectType[Backend, Meta](
