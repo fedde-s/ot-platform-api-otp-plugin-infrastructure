@@ -69,8 +69,8 @@ object Objects extends Logging {
   val PluginType = deriveObjectType[Backend, Plugin](
     ObjectTypeName("Plugin"),
     ObjectTypeDescription("Definition of a single plugin datatype"),
-    ExcludeFields("id"),
-    AddFields(
+    ReplaceField(
+      "id",
       Field(
         "id",
         StringType,
