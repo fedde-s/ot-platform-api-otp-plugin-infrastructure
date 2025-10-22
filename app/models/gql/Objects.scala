@@ -27,11 +27,73 @@ import models.entities.Violations.{
 
 import scala.collection.View.Empty
 
+case class Plugin(id: String, data: String, Title: String, Acronym: String, Description: String)
+val pluginDatasources = Seq(
+  Plugin("plugin data 1",
+         data = "example_data.json",
+         Title = "Example Data 1",
+         Acronym = "ED",
+         Description = "Description for Example Data 1"
+  ),
+  Plugin("plugin data 2",
+         data = "example_data2.json",
+         Title = "Example Data 2",
+         Acronym = "AP",
+         Description = "Description for Example Data 2"
+  ),
+  Plugin("plugin data 3",
+         data = "example_data3.json",
+         Title = "Example Data 3",
+         Acronym = "GP",
+         Description = "Description for Example Data 3"
+  ),
+  Plugin("plugin data 4",
+         data = "example_data4.json",
+         Title = "Example Data 4",
+         Acronym = "ED3",
+         Description = "Description for Example Data 4"
+  ),
+  Plugin("plugin data 5",
+         data = "example_data5.json",
+         Title = "Example Data 5",
+         Acronym = "JK",
+         Description = "Description for Example Data 5"
+  )
+)
+
 object Objects extends Logging {
   implicit val metaDataVersionImp: ObjectType[Backend, DataVersion] =
     deriveObjectType[Backend, DataVersion]()
   implicit val metaAPIVersionImp: ObjectType[Backend, APIVersion] =
     deriveObjectType[Backend, APIVersion]()
+  val PluginType = deriveObjectType[Backend, Plugin](
+    ObjectTypeName("Plugin"),
+    ObjectTypeDescription("Definition of a single plugin datatype"),
+    AddFields(
+      Field(
+        "prefixedId",
+        StringType,
+        Some("The unique identifier of the plugin datatype, prefixed with `plugin_`"),
+        resolve = p => s"plugin_${p.value.id}"
+      )
+    ),
+    DocumentField(
+      "data",
+      "The path to the data file for the plugin datatype"
+    ),
+    DocumentField(
+      "Title",
+      "Display name for the plugin section"
+    ),
+    DocumentField(
+      "Acronym",
+      "The short name displayed in the section's avatar"
+    ),
+    DocumentField(
+      "Description",
+      "The description shown in the section's body's title bar"
+    )
+  )
   implicit val metaImp: ObjectType[Backend, Meta] = deriveObjectType[Backend, Meta](
     AddFields(
       Field(
@@ -39,6 +101,12 @@ object Objects extends Logging {
         OptionType(StringType),
         description = Some("Return Open Targets downloads information"),
         resolve = _.ctx.getDownloads
+      ),
+      Field("targetPlugins",
+            ListType(PluginType),
+            Some("Plugins for a target"),
+            arguments = ensemblId :: Nil,
+            resolve = ctx => pluginDatasources
       )
     )
   )
