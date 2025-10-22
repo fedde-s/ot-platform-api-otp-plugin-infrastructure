@@ -105,7 +105,7 @@ object Objects extends Logging {
       ),
       Field("targetPlugins",
             ListType(PluginType),
-            Some("Plugins for a target"),
+            Some("Plugins available for a target"),
             arguments = ensemblId :: Nil,
             resolve = ctx => pluginDatasources
       )
