@@ -411,6 +411,12 @@ object Objects extends Logging {
         arguments = pageArg :: Nil,
         complexity = Some(complexityCalculator(pageArg)),
         resolve = ctx => ctx.ctx.getProteinCodingCoordinatesByTarget(ctx.value.id, ctx.arg(pageArg))
+      ),
+      Field(
+        "pluginData",
+        StringType,
+        Some("Data from a plugin for this target"),
+        resolve = ctx => s"Here should be the plugin data for ${ctx.value.id}"
       )
     )
   )
