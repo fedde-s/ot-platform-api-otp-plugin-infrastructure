@@ -92,7 +92,7 @@ object Objects extends Logging {
     ),
     DocumentField(
       "Description",
-      "The description shown in the section's body's title bar"
+      "The description shown in the section body's title bar"
     )
   )
   implicit val metaImp: ObjectType[Backend, Meta] = deriveObjectType[Backend, Meta](
