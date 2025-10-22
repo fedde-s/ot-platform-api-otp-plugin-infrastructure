@@ -91,6 +91,12 @@ object Arguments {
     Argument("diseaseId", OptionInputType(StringType), description = "Disease ID")
   val diseaseIds: Argument[Option[Seq[String]]] =
     Argument("diseaseIds", OptionInputType(ListInputType(StringType)), description = "Disease IDs")
+  val pluginId =
+    Argument(
+      "pluginId",
+      OptionInputType(StringType),
+      description = "The unique identifier of a plugin datatype, prefixed with `plugin_`"
+    )
   val studyTypes =
     Argument("studyTypes", OptionInputType(ListInputType(StudyType)), description = "Study types")
   val regions: Argument[Option[Seq[String]]] =

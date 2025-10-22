@@ -85,6 +85,48 @@ val pluginDatasources = Seq(
     fields = mrPluginColumns
   )
 )
+val mrPluginValues = Seq[Map[String, String]](
+  Map(
+    "compound_id" -> "cmpd-1021",
+    "target_protein" -> "TP53",
+    "binding_affinity_kd" -> "12.5",
+    "assay_type" -> "SPR",
+    "unit" -> "nM",
+    "hit" -> "true"
+  ),
+  Map(
+    "compound_id" -> "cmpd-1022",
+    "target_protein" -> "EGFR",
+    "binding_affinity_kd" -> "275.4",
+    "assay_type" -> "ITC",
+    "unit" -> "nM",
+    "hit" -> "false"
+  ),
+  Map(
+    "compound_id" -> "cmpd-1023",
+    "target_protein" -> "MAPK1",
+    "binding_affinity_kd" -> "38.9",
+    "assay_type" -> "SPR",
+    "unit" -> "nM",
+    "hit" -> "true"
+  ),
+  Map(
+    "compound_id" -> "cmpd-1024",
+    "target_protein" -> "BRCA1",
+    "binding_affinity_kd" -> "540.2",
+    "assay_type" -> "ELISA",
+    "unit" -> "nM",
+    "hit" -> "false"
+  ),
+  Map(
+    "compound_id" -> "cmpd-1025",
+    "target_protein" -> "AKT1",
+    "binding_affinity_kd" -> "22.7",
+    "assay_type" -> "SPR",
+    "unit" -> "nM",
+    "hit" -> "true"
+  )
+)
 
 object Objects extends Logging {
   implicit val metaDataVersionImp: ObjectType[Backend, DataVersion] =
@@ -414,9 +456,15 @@ object Objects extends Logging {
       ),
       Field(
         "pluginData",
-        StringType,
+        ListType(KeyValueArrayObjectType),
         Some("Data from a plugin for this target"),
-        resolve = ctx => s"Here should be the plugin data for ${ctx.value.id}"
+        arguments = pluginId :: Nil,
+        resolve = ctx =>
+          mrPluginValues map { row =>
+            Json.arr(
+              row.map((k: String, v: String) => Json.obj("key" -> k, "value" -> v))
+            )
+          }
       )
     )
   )
